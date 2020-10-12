@@ -7,9 +7,10 @@ int Window::height;
 const char* Window::windowTitle = "GLFW Starter Project";
 
 // Objects to Render
-Cube * Window::cube;
-PointCloud * Window::cubePoints;
-Object* currObj;
+PointCloud* Window::bearPoints;
+PointCloud* Window::bunnyPoints;
+PointCloud* Window::sandalPoints;
+PointCloud* currObj;
 
 // Camera Matrices 
 // Projection matrix:
@@ -42,14 +43,13 @@ bool Window::initializeProgram() {
 
 bool Window::initializeObjects()
 {
-	// Create a cube of size 5.
-	cube = new Cube(5.0f);
+	// Load 3 models as point clouds
+	bearPoints = new PointCloud("bear.obj", 1);
+	bunnyPoints = new PointCloud("bunny.obj", 1);
+	sandalPoints = new PointCloud("SandalF20.obj", 1);
 
-	// Create a point cloud consisting of cube vertices.
-	cubePoints = new PointCloud("foo", 100);
-
-	// Set cube to be the first to display
-	currObj = cube;
+	// Set bear to be the first to display
+	currObj = bearPoints;
 
 	return true;
 }
@@ -57,8 +57,9 @@ bool Window::initializeObjects()
 void Window::cleanUp()
 {
 	// Deallcoate the objects.
-	delete cube;
-	delete cubePoints;
+	delete bearPoints;
+	delete bunnyPoints;
+	delete sandalPoints;
 
 	// Delete the shader program.
 	glDeleteProgram(shaderProgram);
@@ -177,10 +178,25 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 		// switch between the cube and the cube pointCloud
 		case GLFW_KEY_1:
-			currObj = cube;
+			// currObj = cube;
+			currObj = bearPoints;
 			break;
+
 		case GLFW_KEY_2:
-			currObj = cubePoints;
+			// currObj = cubePoints;
+			currObj = bunnyPoints;
+			break;
+
+		case GLFW_KEY_3:
+			currObj = sandalPoints;
+			break;
+
+		case GLFW_KEY_S:
+			currObj->updatePointSize(-1);
+			break;
+
+		case GLFW_KEY_L:
+			currObj->updatePointSize(1);
 			break;
 
 		default:

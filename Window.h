@@ -17,8 +17,9 @@ public:
 	static const char* windowTitle;
 
 	// Objects to Render
-	static Cube* cube;
-	static PointCloud * cubePoints;
+      static PointCloud* bearPoints;
+	static PointCloud* bunnyPoints;
+      static PointCloud* sandalPoints;
 
 	// Camera Matrices
 	static glm::mat4 projection;
