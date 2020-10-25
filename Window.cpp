@@ -178,12 +178,10 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 		// switch between the cube and the cube pointCloud
 		case GLFW_KEY_1:
-			// currObj = cube;
 			currObj = bearPoints;
 			break;
 
 		case GLFW_KEY_2:
-			// currObj = cubePoints;
 			currObj = bunnyPoints;
 			break;
 
