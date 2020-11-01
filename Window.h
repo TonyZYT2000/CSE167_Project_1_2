@@ -5,6 +5,7 @@
 #include "shader.h"
 #include "Object.h"
 #include "Cube.h"
+#include "Mesh.h"
 #include "PointCloud.h"
 
 class Window
@@ -17,9 +18,9 @@ public:
 	static const char* windowTitle;
 
 	// Objects to Render
-      static PointCloud* bearPoints;
-	static PointCloud* bunnyPoints;
-      static PointCloud* sandalPoints;
+      static Mesh* bear;
+	static Mesh* bunny;
+      static Mesh* sandal;
 
 	// Camera Matrices
 	static glm::mat4 projection;

@@ -7,10 +7,10 @@ int Window::height;
 const char* Window::windowTitle = "GLFW Starter Project";
 
 // Objects to Render
-PointCloud* Window::bearPoints;
-PointCloud* Window::bunnyPoints;
-PointCloud* Window::sandalPoints;
-PointCloud* currObj;
+Mesh* Window::bear;
+Mesh* Window::bunny;
+Mesh* Window::sandal;
+Mesh* currObj;
 
 // Camera Matrices 
 // Projection matrix:
@@ -24,8 +24,6 @@ glm::mat4 Window::view = glm::lookAt(Window::eyePos, Window::lookAtPoint, Window
 
 // Shader Program ID
 GLuint Window::shaderProgram; 
-
-
 
 bool Window::initializeProgram() {
 	// Create a shader program with a vertex shader and a fragment shader.
@@ -44,12 +42,12 @@ bool Window::initializeProgram() {
 bool Window::initializeObjects()
 {
 	// Load 3 models as point clouds
-	bearPoints = new PointCloud("bear.obj", 1);
-	bunnyPoints = new PointCloud("bunny.obj", 1);
-	sandalPoints = new PointCloud("SandalF20.obj", 1);
+	bear = new Mesh("bear.obj");
+	bunny = new Mesh("bunny.obj");
+	sandal = new Mesh("SandalF20.obj");
 
 	// Set bear to be the first to display
-	currObj = bearPoints;
+	currObj = bear;
 
 	return true;
 }
@@ -57,9 +55,9 @@ bool Window::initializeObjects()
 void Window::cleanUp()
 {
 	// Deallcoate the objects.
-	delete bearPoints;
-	delete bunnyPoints;
-	delete sandalPoints;
+	delete bear;
+	delete bunny;
+	delete sandal;
 
 	// Delete the shader program.
 	glDeleteProgram(shaderProgram);
@@ -178,17 +176,18 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 		// switch between the cube and the cube pointCloud
 		case GLFW_KEY_1:
-			currObj = bearPoints;
+			currObj = bear;
 			break;
 
 		case GLFW_KEY_2:
-			currObj = bunnyPoints;
+			currObj = bunny;
 			break;
 
 		case GLFW_KEY_3:
-			currObj = sandalPoints;
+			currObj = sandal;
 			break;
 
+		/*
 		case GLFW_KEY_S:
 			currObj->updatePointSize(-1);
 			break;
@@ -196,6 +195,7 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 		case GLFW_KEY_L:
 			currObj->updatePointSize(1);
 			break;
+		*/
 
 		default:
 			break;
