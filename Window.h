@@ -18,9 +18,9 @@ public:
 	static const char* windowTitle;
 
 	// Objects to Render
-      static Mesh* bear;
+	static Mesh* bear;
 	static Mesh* bunny;
-      static Mesh* sandal;
+	static Mesh* sandal;
 
 	// Camera Matrices
 	static glm::mat4 projection;
@@ -29,6 +29,11 @@ public:
 
 	// Shader Program ID
 	static GLuint shaderProgram;
+
+	// flag for left button pressed
+	static bool pressed;
+	static glm::vec2 pressedPos;
+	static glm::vec3 prevPoint;
 
 	// Constructors and Destructors
 	static bool initializeProgram();
@@ -46,6 +51,10 @@ public:
 	// Callbacks
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-};
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
 
+private:
+	static glm::vec3 trackBallMapping(glm::vec2 point);
+};
 #endif

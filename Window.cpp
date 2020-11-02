@@ -22,6 +22,10 @@ glm::vec3 Window::lookAtPoint(0, 0, 0);		// The point we are looking at.
 glm::vec3 Window::upVector(0, 1, 0);		// The up direction of the camera.
 glm::mat4 Window::view = glm::lookAt(Window::eyePos, Window::lookAtPoint, Window::upVector);
 
+// pressed flag
+bool Window::pressed = false;
+glm::vec3 Window::prevPoint;
+
 // Shader Program ID
 GLuint Window::shaderProgram; 
 
@@ -194,6 +198,55 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-	std::cerr << yoffset << std::endl;
 	currObj->scale(yoffset);
+}
+
+void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	// when left button pressed
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		// set flag to true
+		pressed = true;
+		// calculate pressed position in 3D
+		double xpos;
+		double ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		prevPoint = trackBallMapping(glm::vec2(xpos, ypos));
+	}
+	// else, set flag to false
+	else {
+		pressed = false;
+	}
+}
+
+void Window::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
+	// when flag pressed is true
+	if (pressed) {
+		// get current screen position and calculate current position in 3D
+		glm::vec2 currPos(xpos, ypos);
+		glm::vec3 currPoint = trackBallMapping(currPos);
+
+		// get velocity
+		double velocity = glm::length(currPoint - prevPoint);
+		// only move if velocity exceeds some threshold
+		if (velocity > 0.0001) {
+			// get rot Axis, rot angle and call rotate on currObj
+			glm::vec3 rotAxis = glm::cross(prevPoint, currPoint);
+			double rot_angle = 1.8 * velocity;
+			currObj->rotate(rotAxis, rot_angle);
+			prevPoint = currPoint;
+		}
+	}
+}
+
+glm::vec3 Window::trackBallMapping(glm::vec2 point) {
+	glm::vec3 v;
+	double d;
+	v.x = (2 * point.x - width) / width;
+	v.y = (height - 2 * point.y) / height;
+	v.z = 0;
+	d = glm::length(v);
+	d = (d < 1) ? d : 1;
+	v.z = sqrt(1.001 - d * d);
+	v = v / glm::length(v);
+	return v;
 }

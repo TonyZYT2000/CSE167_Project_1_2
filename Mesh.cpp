@@ -169,3 +169,7 @@ void  Mesh::scale(double factor) {
 	double scaleFactor = factor > 0 ? 1.1 : 0.9;
 	model = glm::scale(glm::mat4(1), glm::vec3(scaleFactor)) * model;
 }
+
+void Mesh::rotate(glm::vec3 axis, double angle) {
+	model = glm::rotate(glm::mat4(1), (float) angle, axis) * model;
+}

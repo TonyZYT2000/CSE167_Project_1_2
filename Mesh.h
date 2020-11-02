@@ -27,6 +27,7 @@ public:
 	void draw(const glm::mat4& view, const glm::mat4& projection, GLuint shader);
 	void update();
 	void scale(double factor);
+	void rotate(glm::vec3 axis, double angle);
 };
 
 #endif
