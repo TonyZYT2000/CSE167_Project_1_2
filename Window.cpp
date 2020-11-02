@@ -140,7 +140,7 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 void Window::idleCallback()
 {
 	// Perform any necessary updates here 
-	currObj->update();
+	// currObj->update();
 }
 
 void Window::displayCallback(GLFWwindow* window)
@@ -187,18 +187,13 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 			currObj = sandal;
 			break;
 
-		/*
-		case GLFW_KEY_S:
-			currObj->updatePointSize(-1);
-			break;
-
-		case GLFW_KEY_L:
-			currObj->updatePointSize(1);
-			break;
-		*/
-
 		default:
 			break;
 		}
 	}
+}
+
+void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+	std::cerr << yoffset << std::endl;
+	currObj->scale(yoffset);
 }

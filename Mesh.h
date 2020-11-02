@@ -26,8 +26,7 @@ public:
 	
 	void draw(const glm::mat4& view, const glm::mat4& projection, GLuint shader);
 	void update();
-
-	void spin(float deg);
+	void scale(double factor);
 };
 
 #endif

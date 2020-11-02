@@ -11,21 +11,25 @@ Mesh::Mesh(std::string objFilename)
                   std::stringstream ss;
                   ss << line;
 
+			// get the label
                   std::string label;
                   ss >> label;
 
+			// line is vertex
                   if (label == "v") {
 				// write position to a vec3 and add to points vector
                         glm::vec3 vertex;
                         ss >> vertex.x >> vertex.y >> vertex.z;
                         points.push_back(vertex);
 			}
+			// line is vertex normal
 			else if (label == "vn") {
 				// write normal data to a vec3 and push to vnormals vector
 				glm::vec3 vnormal;
 				ss >> vnormal.x >> vnormal.y >> vnormal.z;
 				vnormals.push_back(vnormal);
 			}
+			// lien is face
 			else if (label == "f") {
 				glm::ivec3 face;
 				string index1;
@@ -46,10 +50,7 @@ Mesh::Mesh(std::string objFilename)
 		std::cerr << "Can't open the file: " << objFilename << std::endl;
 	}
 
-	/*
-	 * TODO: Section 4, you will need to normalize the object to fit in the
-	 * screen. 
-	 */
+	// record max and min on 3 dimensions
 	GLfloat xMax = points[0].x;
 	GLfloat xMin = points[0].x;
 	GLfloat yMax = points[0].y;
@@ -128,7 +129,7 @@ Mesh::Mesh(std::string objFilename)
 	// Unbind the VBO/VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	std::cerr << "Finish " << objFilename << std::endl;
+	std::cerr << "Finish loading " << objFilename << std::endl;
 }
 
 Mesh::~Mesh() 
@@ -161,14 +162,10 @@ void Mesh::draw(const glm::mat4& view, const glm::mat4& projection, GLuint shade
 	glUseProgram(0);
 }
 
-void Mesh::update()
-{
-	// Spin the cube by 1 degree
-	spin(0.1f);
-}
+void Mesh::update() {} 
 
-void Mesh::spin(float deg)
-{
-	// Update the model matrix by multiplying a rotation matrix
-	model = model * glm::rotate(glm::radians(deg), glm::vec3(0.0f, 1.0f, 0.0f));
+void  Mesh::scale(double factor) {
+	// scale bigger if factor > 0, otherwise sacle smaller
+	double scaleFactor = factor > 0 ? 1.1 : 0.9;
+	model = glm::scale(glm::mat4(1), glm::vec3(scaleFactor)) * model;
 }
