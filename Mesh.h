@@ -17,11 +17,13 @@ private:
 	std::vector<glm::vec3> points;
 	std::vector<glm::vec3> vnormals;
 	std::vector<glm::ivec3> faces;
+	glm::vec3 kAmbient;
+	glm::vec3 kSpecular;
 
-	GLuint VAO, VBO, EBO;
+	GLuint VAO, VBO, NBO, EBO;
 
 public:
-	Mesh(std::string objFilename);
+	Mesh(std::string objFilename, glm::vec3 amb, glm::vec3 diff, glm::vec3 spec);
 	~Mesh();
 	
 	void draw(const glm::mat4& view, const glm::mat4& projection, GLuint shader);

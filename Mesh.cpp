@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::string objFilename)
+Mesh::Mesh(std::string objFilename, glm::vec3 amb, glm::vec3 diff, glm::vec3 spec) : kAmbient(amb), kSpecular(spec)
 {
 	// parsing vertex, vertex normal and faces
 	std::ifstream objFile(objFilename);
@@ -105,12 +105,13 @@ Mesh::Mesh(std::string objFilename)
 	// Set the model matrix to the transformation matrix
 	model = transform;
 
-	// Set the color. 
-	color = glm::vec3(1, 0, 0);
+	// Set the diffuse color
+	color = diff;
 
 	// Generate a Vertex Array (VAO) and Vertex Buffer Object (VBO)
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &NBO);
 
 	// Bind VAO
 	glBindVertexArray(VAO);
@@ -118,9 +119,19 @@ Mesh::Mesh(std::string objFilename)
 	// Bind VBO to the bound VAO, and store the point data
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::ivec3) * points.size(), points.data(), GL_STATIC_DRAW);
+
 	// Enable Vertex Attribute 0 to pass point data through to the shader
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+	// Bind NBO to the bound VAO, and store normal data
+	glBindBuffer(GL_ARRAY_BUFFER, NBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::ivec3) * vnormals.size(), vnormals.data(), GL_STATIC_DRAW);
+
+	// Enable Vertex Attreibute 1 to pass normal data through to shader
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
 	// Generate EBO, bind the EBO to the bound VAO, and send the index data
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -136,6 +147,7 @@ Mesh::~Mesh()
 {
 	// Delete the VBO and the VAO.
 	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &NBO);
 	glDeleteBuffers(1, &EBO);
 	glDeleteVertexArrays(1, &VAO);
 }
@@ -149,7 +161,9 @@ void Mesh::draw(const glm::mat4& view, const glm::mat4& projection, GLuint shade
 	glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(view));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(projection));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
-	glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(color));
+	glUniform3fv(glGetUniformLocation(shader, "kAmbient"), 1, glm::value_ptr(kAmbient));
+	glUniform3fv(glGetUniformLocation(shader, "kDiffuse"), 1, glm::value_ptr(color));
+	glUniform3fv(glGetUniformLocation(shader, "kSpecular"), 1, glm::value_ptr(kSpecular));
 
 	// Bind the VAO
 	glBindVertexArray(VAO);

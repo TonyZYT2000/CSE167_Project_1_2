@@ -35,6 +35,9 @@ public:
 	static glm::vec2 pressedPos;
 	static glm::vec3 prevPoint;
 
+	// indicate rendring mode
+	static int mode;
+
 	// Constructors and Destructors
 	static bool initializeProgram();
 	static bool initializeObjects();

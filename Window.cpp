@@ -26,6 +26,9 @@ glm::mat4 Window::view = glm::lookAt(Window::eyePos, Window::lookAtPoint, Window
 bool Window::pressed = false;
 glm::vec3 Window::prevPoint;
 
+// mode
+int Window::mode = 0;
+
 // Shader Program ID
 GLuint Window::shaderProgram; 
 
@@ -46,9 +49,12 @@ bool Window::initializeProgram() {
 bool Window::initializeObjects()
 {
 	// Load 3 models as point clouds
-	bear = new Mesh("bear.obj");
-	bunny = new Mesh("bunny.obj");
-	sandal = new Mesh("SandalF20.obj");
+	// gold bear
+	bear = new Mesh("bear.obj", glm::vec3(0.1, 0.08, 0.06), glm::vec3(0, 0, 0), glm::vec3(0.99, 0.9, 0.6));
+	// purple rubber bunny
+	bunny = new Mesh("bunny.obj", glm::vec3(0.12, 0.09, 0.13), glm::vec3(0.7, 0.5, 0.8), glm::vec3(0, 0, 0));
+	// jade sandal
+	sandal = new Mesh("SandalF20.obj", glm::vec3(0.13, 0.22, 0.15), glm::vec3(0.54, 0.89, 0.63), glm::vec3(0.8, 0.8, 0.8));
 
 	// Set bear to be the first to display
 	currObj = bear;
@@ -153,6 +159,11 @@ void Window::displayCallback(GLFWwindow* window)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 
 	// Render the objects
+	glUseProgram(shaderProgram);
+	glUniform1i(glGetUniformLocation(shaderProgram, "mode"), mode);
+	glUniform3fv(glGetUniformLocation(shaderProgram, "eyePos"), 1, glm::value_ptr(Window::eyePos));
+	glUniform3fv(glGetUniformLocation(shaderProgram, "lightPos"), 1, glm::value_ptr(glm::vec3(5, 5, 20)));
+	glUniform3fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, glm::value_ptr(glm::vec3(0.9, 0.7, 0.8)));
 	currObj->draw(view, projection, shaderProgram);
 
 	// Gets events, including input such as keyboard and mouse or window resizing
@@ -189,6 +200,10 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 		case GLFW_KEY_3:
 			currObj = sandal;
+			break;
+
+		case GLFW_KEY_N:
+			mode = (mode == 0) ? 1 : 0;
 			break;
 
 		default:
