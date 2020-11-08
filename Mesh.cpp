@@ -180,10 +180,19 @@ void Mesh::update() {}
 
 void  Mesh::scale(double factor) {
 	// scale bigger if factor > 0, otherwise sacle smaller
-	double scaleFactor = factor > 0 ? 1.1 : 0.9;
+	model = glm::scale(glm::mat4(1), glm::vec3(factor)) * model;
+}
+
+void  Mesh::scalebyScroll(double offset) {
+	// scale bigger if factor > 0, otherwise sacle smaller
+	double scaleFactor = offset > 0 ? 1.1 : 0.9;
 	model = glm::scale(glm::mat4(1), glm::vec3(scaleFactor)) * model;
 }
 
-void Mesh::rotate(glm::vec3 axis, double angle) {
-	model = glm::rotate(glm::mat4(1), (float) angle, axis) * model;
+void Mesh::rotate(glm::vec3 axis, float angle) {
+	model = glm::rotate(glm::mat4(1), angle, axis) * model;
+}
+
+void Mesh::translate(glm::vec3 trans) {
+	model = glm::translate(glm::mat4(1), trans) * model;
 }

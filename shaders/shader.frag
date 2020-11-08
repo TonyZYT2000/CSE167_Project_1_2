@@ -6,7 +6,7 @@
 in vec3 worldPos;
 in vec3 worldNormal;
 
-uniform int mode;
+uniform int renderMode;
 uniform vec3 eyePos;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
@@ -20,7 +20,7 @@ out vec4 fragColor;
 void main()
 {
     // Use the color passed in. An alpha of 1.0f means it is not transparent.
-    if (mode == 0) {
+    if (renderMode == 0) {
         fragColor = vec4(0);
         fragColor[0] = (worldNormal[0] + 1) / 2;
         fragColor[1] = (worldNormal[1] + 1) / 2;
@@ -30,7 +30,7 @@ void main()
         // distance between light and object
         float dist = length(lightPos - worldPos);
         // linear attenuate the light color
-        vec3 attLightColor = lightColor / (0.05 * dist);
+        vec3 attLightColor = lightColor / (1 + (0.01 * dist));
         // vector pointing to light source
         vec3 lightVec = normalize(lightPos - worldPos);
 

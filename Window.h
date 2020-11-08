@@ -21,6 +21,17 @@ public:
 	static Mesh* bear;
 	static Mesh* bunny;
 	static Mesh* sandal;
+	static Mesh* lightSphere;
+
+	// Light source properties
+	static glm::vec3 lightPos;
+	static glm::vec3 lightColor;
+
+	// Rotation mode
+	static int rotateScaleMode;
+
+	// Rendring mode
+	static int renderMode;
 
 	// Camera Matrices
 	static glm::mat4 projection;
@@ -34,9 +45,6 @@ public:
 	static bool pressed;
 	static glm::vec2 pressedPos;
 	static glm::vec3 prevPoint;
-
-	// indicate rendring mode
-	static int mode;
 
 	// Constructors and Destructors
 	static bool initializeProgram();
