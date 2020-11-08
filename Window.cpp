@@ -66,7 +66,7 @@ bool Window::initializeObjects()
 
 	// light source sphere
 	lightSphere = new Mesh("sphere.obj", lightColor, glm::vec3(0), glm::vec3(0));
-	lightSphere->scale(0.03);
+	lightSphere->scale(0.02);
 	lightSphere->translate(lightPos);
 
 	// Set bear to be the first to display

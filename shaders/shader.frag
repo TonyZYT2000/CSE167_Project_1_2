@@ -30,7 +30,7 @@ void main()
         // distance between light and object
         float dist = length(lightPos - worldPos);
         // linear attenuate the light color
-        vec3 attLightColor = lightColor / (1 + (0.01 * dist));
+        vec3 attLightColor = lightColor / (1 + (0.02 * dist));
         // vector pointing to light source
         vec3 lightVec = normalize(lightPos - worldPos);
 
@@ -38,7 +38,7 @@ void main()
         vec3 ambient = attLightColor * kAmbient;
 
         // calculate the factor in diffuse model
-        float diffuseFactor = (dot(lightVec, worldNormal) > 0) ? dot(lightVec, worldNormal) : 0;
+        float diffuseFactor = max(dot(lightVec, worldNormal), 0);
         // cdiffuse color
         vec3 diffuse = attLightColor * kDiffuse * diffuseFactor;
 
@@ -48,9 +48,9 @@ void main()
         vec3 reflectVec = 2 * dot(lightVec, worldNormal) * worldNormal - lightVec;
 
         // calculate the factor in specular model
-        float specularFactor = (dot(reflectVec, eyeVec) > 0) ? dot(reflectVec, eyeVec) : 0;
+        float specularFactor = max(dot(reflectVec, eyeVec), 0);
         // specular color
-        vec3 specular = attLightColor * kSpecular * pow(specularFactor, 3);
+        vec3 specular = attLightColor * kSpecular * pow(specularFactor, 6);
 
         fragColor = vec4(ambient + diffuse + specular, 1.0f);
     }
