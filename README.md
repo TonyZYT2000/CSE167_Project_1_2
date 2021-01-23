@@ -8,6 +8,8 @@ This is the first and the second project of [CSE167](http://ivl.calit2.net/wiki/
 
 The project is managed using Visual Studio on Win10. It depends on OpenGL, GLEW and GLM. With these dependencies configured correctly, this project should also be able to run on OS X and Linux. Instructions can be found [here](http://ivl.calit2.net/wiki/index.php/BasecodeCSE167F20).
 
+4 obj files are loaded by this program. They are: [bunny](http://ivl.calit2.net/wiki/images/3/3f/BunnyF14.zip), [sandal](http://ivl.calit2.net/wiki/images/e/ec/SandalF20.zip), [bear](http://www.calit2.net/~jschulze/tmp/BearF14.zip) and [sphere](http://ivl.calit2.net/wiki/images/0/0a/CSE167SphereOBJ.zip). Put them in root directory and the program should load them correctly. You may also replace them by models you like, but codes need to be changed accordingly.
+
 ## Usage
 
 - Press `n` to switch between normal shading and Phong shading.
