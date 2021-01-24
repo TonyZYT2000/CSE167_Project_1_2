@@ -2,7 +2,7 @@
 
 ## Description
 
-This is the first and the second project of [CSE167](http://ivl.calit2.net/wiki/index.php/CSE167F2020), an introductory computer graphic course taught in UCSD by Professor [Schulze](http://web.eng.ucsd.edu/~jschulze/). It implements Mesh class to read obj files and store models using triangles. It also implements Phong shading and point light with iterative controls. 
+This is the first and the second project of [CSE167](http://ivl.calit2.net/wiki/index.php/CSE167F2020), an introductory computer graphic course taught in UCSD by Professor Schulze. It implements Mesh class to read obj files and store models using triangles. It also implements Phong shading and point light with iterative controls. 
 
 ## Build
 
