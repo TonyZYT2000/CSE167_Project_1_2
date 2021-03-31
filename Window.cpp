@@ -4,7 +4,7 @@
 // Window Properties
 int Window::width;
 int Window::height;
-const char* Window::windowTitle = "GLFW Starter Project";
+const char* Window::windowTitle = "CSE167 Project 1 & 2";
 
 // Objects to Render
 Mesh* Window::bear;
